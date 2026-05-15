@@ -20,13 +20,17 @@ type SpecRow struct {
 	UpdatedAt     time.Time       `json:"updated_at"`
 }
 
-// ensureSchema 建表（幂等）
+// ensureSchema 建表（幂等）+ 老 admin_meta_specs 数据迁移（task/inner_plugin.md §9.4）
 //
 // 单 (project, env) 内每个 module 一行，本插件不区分 project/env
 // 因为一个 runtime 容器只服务一个 (project, env)，spec 也只属于本环境
+//
+// 数据迁移：admin_meta builtin plugin 下线（§15.1）后老 spec 存在 admin_meta_specs
+// 表里，admin-menu 启动时把这些行 COPY 进 admin_menu_specs。COPY 用 ON CONFLICT
+// DO NOTHING 保护新 push 的数据不被覆盖；迁移失败不阻塞 Init（老表可能本来不存在）
 func ensureSchema(db *sql.DB) error {
 	if db == nil {
-		return fmt.Errorf("admin-meta: DB 未注入")
+		return fmt.Errorf("admin-menu: DB 未注入")
 	}
 	_, err := db.Exec(`
 		CREATE TABLE IF NOT EXISTS admin_menu_specs (
@@ -41,7 +45,17 @@ func ensureSchema(db *sql.DB) error {
 			updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 		)
 	`)
-	return err
+	if err != nil {
+		return err
+	}
+	_, _ = db.Exec(`
+		INSERT INTO admin_menu_specs
+			(module, spec_json, version, prompt_version, module_version, generated_by, req_id, deploy_id, updated_at)
+		SELECT module, spec_json, version, prompt_version, module_version, generated_by, req_id, deploy_id, updated_at
+		FROM admin_meta_specs
+		ON CONFLICT (module) DO NOTHING
+	`)
+	return nil
 }
 
 // upsertSpec 覆盖式写入 spec
