@@ -1,0 +1,338 @@
+{
+  "module": "admin-menu",
+  "module_title": "菜单元数据",
+  "apis": [
+    {
+      "method": "POST",
+      "path": "/api/admin-menu/specs/{module}",
+      "endpoint_key": "POST /api/admin-menu/specs/{module}",
+      "title": "写入模块后台规格",
+      "description": "管理后台或平台服务为指定模块写入完整后台页面规格，写入后版本号自增。",
+      "auth": "api_key",
+      "params": [
+        {
+          "name": "module",
+          "type": "string",
+          "required": true,
+          "in": "path",
+          "constraint": "非空模块名",
+          "description": "要写入规格的模块名称。"
+        },
+        {
+          "name": "spec",
+          "type": "object",
+          "required": true,
+          "description": "完整后台规格 JSON，包含菜单、页面、角色等信息。"
+        },
+        {
+          "name": "prompt_version",
+          "type": "integer",
+          "required": false,
+          "description": "生成该规格时使用的提示词版本号。"
+        },
+        {
+          "name": "module_version",
+          "type": "string",
+          "required": false,
+          "description": "生成该规格时对应的模块版本。"
+        },
+        {
+          "name": "generated_by",
+          "type": "string",
+          "required": false,
+          "description": "生成来源，例如自动部署或具体操作人。"
+        },
+        {
+          "name": "req_id",
+          "type": "integer",
+          "required": false,
+          "description": "关联需求 ID，没有关联时为 0。"
+        },
+        {
+          "name": "deploy_id",
+          "type": "integer",
+          "required": false,
+          "description": "关联部署记录 ID，没有关联时为 0。"
+        }
+      ],
+      "request_example": {
+        "spec": {
+          "module": "wallet",
+          "menus": []
+        },
+        "prompt_version": 1,
+        "module_version": "release-001",
+        "generated_by": "auto-on-deploy",
+        "req_id": 18,
+        "deploy_id": 101
+      },
+      "response": {
+        "description": "返回写入模块和新版本号。",
+        "data_type": "object",
+        "fields": [
+          {
+            "name": "module",
+            "type": "string",
+            "description": "写入规格的模块名称。"
+          },
+          {
+            "name": "version",
+            "type": "integer",
+            "description": "本模块规格保存后的版本号。"
+          }
+        ],
+        "error_codes": [
+          {
+            "status": 1,
+            "msg": "module 不能为空、body 读取失败、JSON 解析失败、spec 为空或写入失败。"
+          }
+        ]
+      },
+      "response_example": {
+        "code": 0,
+        "data": {
+          "module": "wallet",
+          "version": 2
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin-menu/specs/{module}",
+      "endpoint_key": "DELETE /api/admin-menu/specs/{module}",
+      "title": "删除模块后台规格",
+      "description": "删除指定模块已保存的后台规格，通常在模块卸载或规格废弃时调用。",
+      "auth": "api_key",
+      "params": [
+        {
+          "name": "module",
+          "type": "string",
+          "required": true,
+          "in": "path",
+          "constraint": "非空模块名",
+          "description": "要删除规格的模块名称。"
+        }
+      ],
+      "response": {
+        "description": "删除成功时不返回业务数据。",
+        "data_type": "object",
+        "fields": [],
+        "error_codes": [
+          {
+            "status": 1,
+            "msg": "module 不能为空或删除失败。"
+          }
+        ]
+      },
+      "response_example": {
+        "code": 0
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin-menu/specs/{module}",
+      "endpoint_key": "GET /api/admin-menu/specs/{module}",
+      "title": "查询模块后台规格",
+      "description": "查询指定模块完整后台规格；没有记录时 data 为 null。",
+      "auth": "api_key",
+      "params": [
+        {
+          "name": "module",
+          "type": "string",
+          "required": true,
+          "in": "path",
+          "constraint": "非空模块名",
+          "description": "要查询规格的模块名称。"
+        }
+      ],
+      "response": {
+        "description": "返回平铺后的后台规格对象。",
+        "data_type": "object",
+        "fields": [
+          {
+            "name": "module",
+            "type": "string",
+            "description": "模块名称。"
+          },
+          {
+            "name": "version",
+            "type": "integer",
+            "description": "规格版本号。"
+          },
+          {
+            "name": "prompt_version",
+            "type": "integer",
+            "description": "提示词版本号。"
+          },
+          {
+            "name": "module_version",
+            "type": "string",
+            "description": "模块版本。"
+          },
+          {
+            "name": "menus",
+            "type": "array",
+            "description": "该模块贡献给后台左侧导航的菜单项。"
+          },
+          {
+            "name": "views",
+            "type": "array",
+            "description": "该模块后台页面定义。"
+          }
+        ],
+        "error_codes": [
+          {
+            "status": 1,
+            "msg": "查询失败或规格 JSON 解析失败。"
+          }
+        ]
+      },
+      "response_example": {
+        "code": 0,
+        "data": {
+          "module": "wallet",
+          "version": 1,
+          "menus": [],
+          "views": []
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin-menu/specs",
+      "endpoint_key": "GET /api/admin-menu/specs",
+      "title": "列出模块后台规格",
+      "description": "列出当前运行环境里所有已保存的模块后台规格元数据和规格内容。",
+      "auth": "api_key",
+      "params": [],
+      "response": {
+        "description": "返回规格记录数组。",
+        "data_type": "array",
+        "fields": [
+          {
+            "name": "module",
+            "type": "string",
+            "description": "模块名称。"
+          },
+          {
+            "name": "spec",
+            "type": "object",
+            "description": "完整后台规格 JSON。"
+          },
+          {
+            "name": "version",
+            "type": "integer",
+            "description": "规格版本号。"
+          },
+          {
+            "name": "prompt_version",
+            "type": "integer",
+            "description": "提示词版本号。"
+          },
+          {
+            "name": "module_version",
+            "type": "string",
+            "description": "模块版本。"
+          },
+          {
+            "name": "generated_by",
+            "type": "string",
+            "description": "生成来源。"
+          },
+          {
+            "name": "req_id",
+            "type": "integer",
+            "description": "关联需求 ID。"
+          },
+          {
+            "name": "deploy_id",
+            "type": "integer",
+            "description": "关联部署 ID。"
+          },
+          {
+            "name": "updated_at",
+            "type": "string",
+            "description": "更新时间，RFC3339 字符串。"
+          }
+        ],
+        "error_codes": [
+          {
+            "status": 1,
+            "msg": "查询失败。"
+          }
+        ]
+      },
+      "response_example": {
+        "code": 0,
+        "data": [
+          {
+            "module": "wallet",
+            "version": 1,
+            "generated_by": "auto-on-deploy",
+            "updated_at": "2026-05-28T00:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin-menu/menu",
+      "endpoint_key": "GET /api/admin-menu/menu",
+      "title": "聚合后台菜单",
+      "description": "把所有模块规格里的 menus 聚合成后台菜单树，供项目后台渲染左侧菜单。",
+      "auth": "api_key",
+      "params": [],
+      "response": {
+        "description": "返回菜单树版本号和按模块分组的菜单。",
+        "data_type": "object",
+        "fields": [
+          {
+            "name": "version",
+            "type": "integer",
+            "description": "菜单树聚合版本，任一模块规格变化后会变化。"
+          },
+          {
+            "name": "modules",
+            "type": "array",
+            "description": "按模块分组的菜单项。",
+            "fields": [
+              {
+                "name": "module",
+                "type": "string",
+                "description": "模块名称。"
+              },
+              {
+                "name": "menus",
+                "type": "array",
+                "description": "该模块菜单项。"
+              }
+            ]
+          }
+        ],
+        "error_codes": [
+          {
+            "status": 1,
+            "msg": "查询失败。"
+          }
+        ]
+      },
+      "response_example": {
+        "code": 0,
+        "data": {
+          "version": 3,
+          "modules": [
+            {
+              "module": "wallet",
+              "menus": [
+                {
+                  "key": "orders",
+                  "title": "订单"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
