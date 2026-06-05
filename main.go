@@ -12,13 +12,13 @@ package main
 // 项目后台菜单照常显示，只是不能新增 / 重生 spec。
 //
 // 路由协议：
-//   POST   /{admin_prefix}/api/admin-meta/specs/{module}  写入 spec（admin-server 推）
-//   DELETE /{admin_prefix}/api/admin-meta/specs/{module}  删除某模块 spec
-//   GET    /{admin_prefix}/api/admin-meta/specs/{module}  拿单模块完整 spec
-//   GET    /{admin_prefix}/api/admin-meta/specs           列出所有模块 spec 元数据
-//   GET    /{admin_prefix}/api/admin-meta/menu            聚合菜单（按模块分组）
+//   POST   /api/admin-meta/specs/{module}  写入 spec（admin-server 推）
+//   DELETE /api/admin-meta/specs/{module}  删除某模块 spec
+//   GET    /api/admin-meta/specs/{module}  拿单模块完整 spec
+//   GET    /api/admin-meta/specs           列出所有模块 spec 元数据
+//   GET    /api/admin-meta/menu            聚合菜单（按模块分组）
 //
-// {admin_prefix} 部分用 Go 1.22 pattern 占位，runtime 鉴权中间件按
+// 路径直接使用真实字面量，runtime 鉴权中间件按
 // X-API-Key 校验；本插件 handler 内不再重复鉴权。
 
 import (

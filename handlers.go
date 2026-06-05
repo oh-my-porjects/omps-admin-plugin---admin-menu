@@ -16,7 +16,7 @@ type writeReq struct {
 	DeployID      int64           `json:"deploy_id"`       // 关联部署 id
 }
 
-// handleSpecWrite POST /{admin_prefix}/api/admin-meta/specs/{module}
+// handleSpecWrite POST /api/admin-meta/specs/{module}
 func (p *AdminMenuPlugin) handleSpecWrite(w http.ResponseWriter, r *http.Request) {
 	module := r.PathValue("module")
 	if module == "" {
@@ -58,7 +58,7 @@ func (p *AdminMenuPlugin) handleSpecWrite(w http.ResponseWriter, r *http.Request
 	writeJSON(w, http.StatusOK, gin1{"code": 0, "data": gin1{"module": module, "version": version}})
 }
 
-// handleSpecDelete DELETE /{admin_prefix}/api/admin-meta/specs/{module}
+// handleSpecDelete DELETE /api/admin-meta/specs/{module}
 func (p *AdminMenuPlugin) handleSpecDelete(w http.ResponseWriter, r *http.Request) {
 	module := r.PathValue("module")
 	if module == "" {
@@ -73,7 +73,7 @@ func (p *AdminMenuPlugin) handleSpecDelete(w http.ResponseWriter, r *http.Reques
 	writeJSON(w, http.StatusOK, gin1{"code": 0})
 }
 
-// handleSpecGet GET /{admin_prefix}/api/admin-meta/specs/{module}
+// handleSpecGet GET /api/admin-meta/specs/{module}
 //
 // data 字段直接是平铺的 spec 对象（含 menus / views / roles 等顶层字段），
 // 跟前端 useSpec hook 的 Spec 类型 1:1 对齐：const spec = data.data as Spec
@@ -112,7 +112,7 @@ func (p *AdminMenuPlugin) handleSpecGet(w http.ResponseWriter, r *http.Request) 
 	writeJSON(w, http.StatusOK, gin1{"code": 0, "data": specObj})
 }
 
-// handleSpecList GET /{admin_prefix}/api/admin-meta/specs
+// handleSpecList GET /api/admin-meta/specs
 //
 // 列出所有模块 spec 元数据（含完整 spec_json，调用方可挑用）
 func (p *AdminMenuPlugin) handleSpecList(w http.ResponseWriter, r *http.Request) {
@@ -124,7 +124,7 @@ func (p *AdminMenuPlugin) handleSpecList(w http.ResponseWriter, r *http.Request)
 	writeJSON(w, http.StatusOK, gin1{"code": 0, "data": rows})
 }
 
-// handleMenu GET /{admin_prefix}/api/admin-meta/menu
+// handleMenu GET /api/admin-meta/menu
 //
 // 把所有模块 spec 里的 menus 部分聚合成 menu tree 返回，前端 DynamicShell 直接渲染左侧导航
 func (p *AdminMenuPlugin) handleMenu(w http.ResponseWriter, r *http.Request) {
