@@ -1,0 +1,16 @@
+{
+  "api": "GET /api/admin-menu/menu",
+  "cases": [
+    {
+      "name": "聚合后台菜单 成功",
+      "kind": "http",
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/admin-menu/menu",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0
+      }
+    }
+  ]
+}

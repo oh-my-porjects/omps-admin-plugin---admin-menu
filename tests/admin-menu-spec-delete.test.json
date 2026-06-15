@@ -1,0 +1,27 @@
+{
+  "api": "DELETE /api/admin-menu/specs/{module}",
+  "cases": [
+    {
+      "name": "删除已存在模块后台规格",
+      "kind": "http",
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/admin-menu/specs/{range_tag}seed",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0
+      }
+    },
+    {
+      "name": "重复删除保持幂等",
+      "kind": "http",
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/admin-menu/specs/{range_tag}seed",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0
+      }
+    }
+  ]
+}

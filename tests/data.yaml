@@ -35,4 +35,19 @@ noise_fields: []
 #     seed_data:
 #       - {id: "{range_tag}001", name: "示例 1", created_at: "now()"}
 #       - {id: "{range_tag}002", name: "示例 2", created_at: "now()"}
-tables: {}
+tables:
+  admin_menu_specs:
+    primary_key: module
+    range_filter: "module LIKE '{range_tag}%'"
+    snapshot_view: [module, version, prompt_version, module_version, generated_by, req_id, deploy_id, updated_at]
+    snapshot_summary: "module, version, generated_by"
+    seed_data:
+      - module: "{range_tag}seed"
+        spec_json: '{"module":"{range_tag}seed","menus":[{"key":"{range_tag}menu","title":"测试菜单","path":"/{range_tag}seed"}]}'
+        version: 1
+        prompt_version: 1
+        module_version: "test"
+        generated_by: "test-assets"
+        req_id: 0
+        deploy_id: 0
+        updated_at: "now()"

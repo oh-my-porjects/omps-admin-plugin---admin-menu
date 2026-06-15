@@ -1,0 +1,16 @@
+{
+  "api": "GET /api/admin-menu/specs",
+  "cases": [
+    {
+      "name": "列出模块后台规格 成功",
+      "kind": "http",
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/admin-menu/specs",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0
+      }
+    }
+  ]
+}

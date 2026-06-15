@@ -1,0 +1,28 @@
+{
+  "api": "GET /api/admin-menu/specs/{module}",
+  "cases": [
+    {
+      "name": "查询已存在模块后台规格",
+      "kind": "http",
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/admin-menu/specs/{range_tag}seed",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0,
+        "data.module": "{range_tag}seed"
+      }
+    },
+    {
+      "name": "查询不存在模块返回空 data",
+      "kind": "http",
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/admin-menu/specs/{range_tag}missing",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0
+      }
+    }
+  ]
+}

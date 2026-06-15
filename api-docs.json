@@ -22,7 +22,8 @@
           "name": "spec",
           "type": "object",
           "required": true,
-          "description": "完整后台规格 JSON，包含菜单、页面、角色等信息。"
+          "description": "完整后台规格 JSON，包含菜单、页面、角色等信息。",
+          "fields": []
         },
         {
           "name": "prompt_version",
@@ -94,7 +95,15 @@
           "module": "wallet",
           "version": 2
         }
-      }
+      },
+      "rules": [
+        {
+          "category": "security",
+          "title": "写入模块后台规格 鉴权边界",
+          "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：管理后台或平台服务为指定模块写入完整后台页面规格，写入后版本号自增。",
+          "code_loc": "main.go:75"
+        }
+      ]
     },
     {
       "method": "DELETE",
@@ -126,7 +135,15 @@
       },
       "response_example": {
         "code": 0
-      }
+      },
+      "rules": [
+        {
+          "category": "security",
+          "title": "删除模块后台规格 鉴权边界",
+          "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：删除指定模块已保存的后台规格，通常在模块卸载或规格废弃时调用。",
+          "code_loc": "main.go:76"
+        }
+      ]
     },
     {
       "method": "GET",
@@ -172,12 +189,14 @@
           {
             "name": "menus",
             "type": "array",
-            "description": "该模块贡献给后台左侧导航的菜单项。"
+            "description": "该模块贡献给后台左侧导航的菜单项。",
+            "fields": []
           },
           {
             "name": "views",
             "type": "array",
-            "description": "该模块后台页面定义。"
+            "description": "该模块后台页面定义。",
+            "fields": []
           }
         ],
         "error_codes": [
@@ -195,7 +214,15 @@
           "menus": [],
           "views": []
         }
-      }
+      },
+      "rules": [
+        {
+          "category": "security",
+          "title": "查询模块后台规格 鉴权边界",
+          "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：查询指定模块完整后台规格；没有记录时 data 为 null。",
+          "code_loc": "main.go:77"
+        }
+      ]
     },
     {
       "method": "GET",
@@ -217,7 +244,8 @@
           {
             "name": "spec",
             "type": "object",
-            "description": "完整后台规格 JSON。"
+            "description": "完整后台规格 JSON。",
+            "fields": []
           },
           {
             "name": "version",
@@ -272,7 +300,15 @@
             "updated_at": "2026-05-28T00:00:00Z"
           }
         ]
-      }
+      },
+      "rules": [
+        {
+          "category": "security",
+          "title": "列出模块后台规格 鉴权边界",
+          "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：列出当前运行环境里所有已保存的模块后台规格元数据和规格内容。",
+          "code_loc": "main.go:78"
+        }
+      ]
     },
     {
       "method": "GET",
@@ -304,7 +340,8 @@
               {
                 "name": "menus",
                 "type": "array",
-                "description": "该模块菜单项。"
+                "description": "该模块菜单项。",
+                "fields": []
               }
             ]
           }
@@ -332,7 +369,15 @@
             }
           ]
         }
-      }
+      },
+      "rules": [
+        {
+          "category": "security",
+          "title": "聚合后台菜单 鉴权边界",
+          "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：把所有模块规格里的 menus 聚合成后台菜单树，供项目后台渲染左侧菜单。",
+          "code_loc": "main.go:79"
+        }
+      ]
     }
   ]
 }
