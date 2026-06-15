@@ -1,0 +1,28 @@
+{
+  "api": "DELETE /api/admin-meta/specs/{module}",
+  "cases": [
+    {
+      "name": "兼容路径删除不存在模块保持幂等",
+      "kind": "http",
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/admin-meta/specs/{range_tag}missing",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0
+      }
+    },
+    {
+      "name": "兼容路径删除接口写入空 body 返回错误",
+      "kind": "http",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin-meta/specs/{range_tag}missing",
+      "expect_status": 400,
+      "expect_field": {
+        "code": 1
+      },
+      "body": {}
+    }
+  ]
+}

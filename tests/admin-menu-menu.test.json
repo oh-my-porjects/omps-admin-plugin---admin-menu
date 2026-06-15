@@ -11,6 +11,14 @@
       "expect_field": {
         "code": 0
       }
+    },
+    {
+      "name": "未授权访问失败",
+      "kind": "http",
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/api/admin-menu/menu",
+      "expect_status": 401
     }
   ]
 }

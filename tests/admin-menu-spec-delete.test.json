@@ -22,6 +22,14 @@
       "expect_field": {
         "code": 0
       }
+    },
+    {
+      "name": "未授权访问失败",
+      "kind": "http",
+      "actor": "anonymous",
+      "method": "DELETE",
+      "path": "/api/admin-menu/specs/{range_tag}seed",
+      "expect_status": 401
     }
   ]
 }

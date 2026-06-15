@@ -1,0 +1,24 @@
+{
+  "api": "GET /api/admin-meta/menu",
+  "cases": [
+    {
+      "name": "兼容路径聚合后台菜单成功",
+      "kind": "http",
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/admin-meta/menu",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0
+      }
+    },
+    {
+      "name": "兼容路径菜单不支持 POST",
+      "kind": "http",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin-meta/menu",
+      "expect_status": 405
+    }
+  ]
+}

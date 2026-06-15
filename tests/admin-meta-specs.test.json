@@ -1,0 +1,28 @@
+{
+  "api": "GET /api/admin-meta/specs",
+  "cases": [
+    {
+      "name": "兼容路径列出模块后台规格成功",
+      "kind": "http",
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/admin-meta/specs",
+      "expect_status": 200,
+      "expect_field": {
+        "code": 0
+      }
+    },
+    {
+      "name": "兼容路径写入规格缺少 spec 返回错误",
+      "kind": "http",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin-meta/specs/{range_tag}seed",
+      "expect_status": 400,
+      "expect_field": {
+        "code": 1
+      },
+      "body": {}
+    }
+  ]
+}
