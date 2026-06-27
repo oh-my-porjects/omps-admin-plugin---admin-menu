@@ -1,0 +1,69 @@
+{
+  "method": "GET",
+  "path": "/api/admin-menu/menu",
+  "endpoint_key": "GET /api/admin-menu/menu",
+  "title": "聚合后台菜单",
+  "description": "把所有模块规格里的 menus 聚合成后台菜单树，供项目后台渲染左侧菜单。",
+  "auth": "api_key",
+  "params": [],
+  "response": {
+    "description": "返回菜单树版本号和按模块分组的菜单。",
+    "data_type": "object",
+    "fields": [
+      {
+        "name": "version",
+        "type": "integer",
+        "description": "菜单树聚合版本，任一模块规格变化后会变化。"
+      },
+      {
+        "name": "modules",
+        "type": "array",
+        "description": "按模块分组的菜单项。",
+        "fields": [
+          {
+            "name": "module",
+            "type": "string",
+            "description": "模块名称。"
+          },
+          {
+            "name": "menus",
+            "type": "array",
+            "description": "该模块菜单项。",
+            "fields": []
+          }
+        ]
+      }
+    ],
+    "error_codes": [
+      {
+        "status": 1,
+        "msg": "查询失败。"
+      }
+    ]
+  },
+  "response_example": {
+    "code": 0,
+    "data": {
+      "version": 3,
+      "modules": [
+        {
+          "module": "wallet",
+          "menus": [
+            {
+              "key": "orders",
+              "title": "订单"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "rules": [
+    {
+      "category": "security",
+      "title": "聚合后台菜单 鉴权边界",
+      "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：把所有模块规格里的 menus 聚合成后台菜单树，供项目后台渲染左侧菜单。",
+      "code_loc": "main.go:79"
+    }
+  ]
+}

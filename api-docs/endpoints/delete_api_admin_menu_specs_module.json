@@ -1,0 +1,40 @@
+{
+  "method": "DELETE",
+  "path": "/api/admin-menu/specs/{module}",
+  "endpoint_key": "DELETE /api/admin-menu/specs/{module}",
+  "title": "删除模块后台规格",
+  "description": "删除指定模块已保存的后台规格，通常在模块卸载或规格废弃时调用。",
+  "auth": "api_key",
+  "params": [
+    {
+      "name": "module",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "constraint": "非空模块名",
+      "description": "要删除规格的模块名称。"
+    }
+  ],
+  "response": {
+    "description": "删除成功时不返回业务数据。",
+    "data_type": "object",
+    "fields": [],
+    "error_codes": [
+      {
+        "status": 1,
+        "msg": "module 不能为空或删除失败。"
+      }
+    ]
+  },
+  "response_example": {
+    "code": 0
+  },
+  "rules": [
+    {
+      "category": "security",
+      "title": "删除模块后台规格 鉴权边界",
+      "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：删除指定模块已保存的后台规格，通常在模块卸载或规格废弃时调用。",
+      "code_loc": "main.go:76"
+    }
+  ]
+}

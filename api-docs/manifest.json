@@ -1,0 +1,52 @@
+{
+  "module": "admin-menu",
+  "module_title": "菜单元数据",
+  "version": 1,
+  "endpoints": [
+    {
+      "key": "POST /api/admin-menu/specs/{module}",
+      "file": "endpoints/post_api_admin_menu_specs_module.json"
+    },
+    {
+      "key": "DELETE /api/admin-menu/specs/{module}",
+      "file": "endpoints/delete_api_admin_menu_specs_module.json"
+    },
+    {
+      "key": "GET /api/admin-menu/specs/{module}",
+      "file": "endpoints/get_api_admin_menu_specs_module.json"
+    },
+    {
+      "key": "GET /api/admin-menu/specs",
+      "file": "endpoints/get_api_admin_menu_specs.json"
+    },
+    {
+      "key": "GET /api/admin-menu/menu",
+      "file": "endpoints/get_api_admin_menu_menu.json"
+    },
+    {
+      "key": "POST /api/admin-meta/specs/{module}",
+      "file": "endpoints/post_api_admin_meta_specs_module.json"
+    },
+    {
+      "key": "DELETE /api/admin-meta/specs/{module}",
+      "file": "endpoints/delete_api_admin_meta_specs_module.json"
+    },
+    {
+      "key": "GET /api/admin-meta/specs/{module}",
+      "file": "endpoints/get_api_admin_meta_specs_module.json"
+    },
+    {
+      "key": "GET /api/admin-meta/specs",
+      "file": "endpoints/get_api_admin_meta_specs.json"
+    },
+    {
+      "key": "GET /api/admin-meta/menu",
+      "file": "endpoints/get_api_admin_meta_menu.json"
+    }
+  ],
+  "ws_events": [],
+  "components": {
+    "schemas": [],
+    "enums": []
+  }
+}

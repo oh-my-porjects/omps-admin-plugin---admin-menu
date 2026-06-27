@@ -1,0 +1,103 @@
+{
+  "method": "POST",
+  "path": "/api/admin-menu/specs/{module}",
+  "endpoint_key": "POST /api/admin-menu/specs/{module}",
+  "title": "写入模块后台规格",
+  "description": "管理后台或平台服务为指定模块写入完整后台页面规格，写入后版本号自增。",
+  "auth": "api_key",
+  "params": [
+    {
+      "name": "module",
+      "type": "string",
+      "required": true,
+      "in": "path",
+      "constraint": "非空模块名",
+      "description": "要写入规格的模块名称。"
+    },
+    {
+      "name": "spec",
+      "type": "object",
+      "required": true,
+      "description": "完整后台规格 JSON，包含菜单、页面、角色等信息。",
+      "fields": []
+    },
+    {
+      "name": "prompt_version",
+      "type": "integer",
+      "required": false,
+      "description": "生成该规格时使用的提示词版本号。"
+    },
+    {
+      "name": "module_version",
+      "type": "string",
+      "required": false,
+      "description": "生成该规格时对应的模块版本。"
+    },
+    {
+      "name": "generated_by",
+      "type": "string",
+      "required": false,
+      "description": "生成来源，例如自动部署或具体操作人。"
+    },
+    {
+      "name": "req_id",
+      "type": "integer",
+      "required": false,
+      "description": "关联需求 ID，没有关联时为 0。"
+    },
+    {
+      "name": "deploy_id",
+      "type": "integer",
+      "required": false,
+      "description": "关联部署记录 ID，没有关联时为 0。"
+    }
+  ],
+  "request_example": {
+    "spec": {
+      "module": "wallet",
+      "menus": []
+    },
+    "prompt_version": 1,
+    "module_version": "release-001",
+    "generated_by": "auto-on-deploy",
+    "req_id": 18,
+    "deploy_id": 101
+  },
+  "response": {
+    "description": "返回写入模块和新版本号。",
+    "data_type": "object",
+    "fields": [
+      {
+        "name": "module",
+        "type": "string",
+        "description": "写入规格的模块名称。"
+      },
+      {
+        "name": "version",
+        "type": "integer",
+        "description": "本模块规格保存后的版本号。"
+      }
+    ],
+    "error_codes": [
+      {
+        "status": 1,
+        "msg": "module 不能为空、body 读取失败、JSON 解析失败、spec 为空或写入失败。"
+      }
+    ]
+  },
+  "response_example": {
+    "code": 0,
+    "data": {
+      "module": "wallet",
+      "version": 2
+    }
+  },
+  "rules": [
+    {
+      "category": "security",
+      "title": "写入模块后台规格 鉴权边界",
+      "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：管理后台或平台服务为指定模块写入完整后台页面规格，写入后版本号自增。",
+      "code_loc": "main.go:75"
+    }
+  ]
+}

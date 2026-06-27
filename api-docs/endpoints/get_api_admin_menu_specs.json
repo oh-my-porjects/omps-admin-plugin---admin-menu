@@ -1,0 +1,86 @@
+{
+  "method": "GET",
+  "path": "/api/admin-menu/specs",
+  "endpoint_key": "GET /api/admin-menu/specs",
+  "title": "列出模块后台规格",
+  "description": "列出当前运行环境里所有已保存的模块后台规格元数据和规格内容。",
+  "auth": "api_key",
+  "params": [],
+  "response": {
+    "description": "返回规格记录数组。",
+    "data_type": "array",
+    "fields": [
+      {
+        "name": "module",
+        "type": "string",
+        "description": "模块名称。"
+      },
+      {
+        "name": "spec",
+        "type": "object",
+        "description": "完整后台规格 JSON。",
+        "fields": []
+      },
+      {
+        "name": "version",
+        "type": "integer",
+        "description": "规格版本号。"
+      },
+      {
+        "name": "prompt_version",
+        "type": "integer",
+        "description": "提示词版本号。"
+      },
+      {
+        "name": "module_version",
+        "type": "string",
+        "description": "模块版本。"
+      },
+      {
+        "name": "generated_by",
+        "type": "string",
+        "description": "生成来源。"
+      },
+      {
+        "name": "req_id",
+        "type": "integer",
+        "description": "关联需求 ID。"
+      },
+      {
+        "name": "deploy_id",
+        "type": "integer",
+        "description": "关联部署 ID。"
+      },
+      {
+        "name": "updated_at",
+        "type": "string",
+        "description": "更新时间，RFC3339 字符串。"
+      }
+    ],
+    "error_codes": [
+      {
+        "status": 1,
+        "msg": "查询失败。"
+      }
+    ]
+  },
+  "response_example": {
+    "code": 0,
+    "data": [
+      {
+        "module": "wallet",
+        "version": 1,
+        "generated_by": "auto-on-deploy",
+        "updated_at": "2026-05-28T00:00:00Z"
+      }
+    ]
+  },
+  "rules": [
+    {
+      "category": "security",
+      "title": "列出模块后台规格 鉴权边界",
+      "body": "该接口按 auth=api_key 执行访问控制；未满足身份、内部令牌、后台会话或 API key 要求时必须拒绝主流程。接口职责：列出当前运行环境里所有已保存的模块后台规格元数据和规格内容。",
+      "code_loc": "main.go:78"
+    }
+  ]
+}
