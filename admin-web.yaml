@@ -1,28 +1,25 @@
 module: admin-menu
 module_title: 菜单元数据
 menus:
-  - key: specs
-    title: 模块 Spec
-    icon: appstore
-    roles: [admin, developer]
-    views: [spec_list]
+- key: specs
+  title: 模块 Spec
+  icon: appstore
+  views:
+  - spec_list
+  permission_key: admin-menu.specs.page
+  default_effect: visible
 views:
-  - key: spec_list
-    type: table
-    title: 已收录的模块 Spec
-    api: GET /api/admin-menu/specs
-    columns:
-      - field: module
-        title: 模块
-      - field: version
-        title: 版本
-      - field: generated_by
-        title: 生成者
-      - field: updated_at
-        title: 更新时间
-        render: datetime
-roles:
-  - code: admin
-    title: 超级管理员
-  - code: developer
-    title: 开发者
+- key: spec_list
+  type: table
+  title: 已收录的模块 Spec
+  api: GET /api/admin-menu/specs
+  columns:
+  - field: module
+    title: 模块
+  - field: version
+    title: 版本
+  - field: generated_by
+    title: 生成者
+  - field: updated_at
+    title: 更新时间
+    render: datetime
